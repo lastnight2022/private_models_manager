@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lastnight2022.cc.mapper.UserMapper">
+    <!-- 定义结果映射（处理字段名转换） -->
+    <resultMap id="userResultMap" type="User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="nickname" column="nick_name"/>
+        <result property="passwordHash" column="password_hash"/>
+        <result property="email" column="email"/>
+        <result property="role" column="role" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="lastLogin" column="last_login"/>
+    </resultMap>
+
+    <!-- 根据ID查询用户 -->
+    <select id="selectUserById" resultMap="userResultMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <!-- 插入用户 -->
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password_hash, email, role)
+        VALUES (#{username}, #{passwordHash}, #{email}, #{role})
+    </insert>
+
+    <!-- 根据用户名查询 -->
+    <select id="selectUserByUsername" resultMap="userResultMap">
+        SELECT * FROM users WHERE username = #{username}
+    </select>
+
+    <!-- 查询所有用户 -->
+    <select id="selectAllUsers" resultMap="userResultMap">
+        SELECT * FROM users
+    </select>
+</mapper>

@@ -13,6 +13,7 @@ use AI_Models_Manager;
 -- );
 
 -- 模型版本表（model_versions）
+drop table if exists model_versions;
 CREATE TABLE model_versions (
                                 id SERIAL PRIMARY KEY,
                                 model_id INT REFERENCES models(id),
@@ -24,6 +25,7 @@ CREATE TABLE model_versions (
 );
 
 -- 模型权限表（model_permissions）
+drop table if exists model_permissions;
 CREATE TABLE model_permissions (
                                    model_id INT REFERENCES models(id),
                                    user_id INT REFERENCES users(id),
@@ -32,6 +34,7 @@ CREATE TABLE model_permissions (
 );
 
 -- 模型市场元数据表（market_models）
+drop table if exists market_models;
 CREATE TABLE market_models (
                                id SERIAL PRIMARY KEY,
                                source VARCHAR(20) NOT NULL,  -- 来源（huggingface/ollama/custom）
@@ -48,6 +51,7 @@ CREATE TABLE market_models (
 );
 
 -- 用户交互表（user_model_actions）
+drop table if exists user_model_actions;
 CREATE TABLE user_model_actions (
                                     user_id INT REFERENCES users(id),
                                     model_id INT REFERENCES market_models(id),
@@ -59,6 +63,7 @@ CREATE TABLE user_model_actions (
 );
 
 -- 镜像源配置表（mirror_sources）
+drop table if exists mirror_sources;
 CREATE TABLE mirror_sources (
                                 id SERIAL PRIMARY KEY,
                                 name VARCHAR(100) UNIQUE,     -- 镜像源名称（如"HuggingFace中国站"）
@@ -69,6 +74,7 @@ CREATE TABLE mirror_sources (
 );
 
 -- 资源监控表（时序数据）
+drop table if exists monitoring_metrics;
 CREATE TABLE monitoring_metrics (
                                     time TIMESTAMP NOT NULL DEFAULT NOW(),
                                     instance_id VARCHAR(50),      -- 实例标识（用于集群部署）
@@ -79,6 +85,7 @@ CREATE TABLE monitoring_metrics (
 CREATE INDEX idx_metrics_time ON monitoring_metrics (time);
 
 -- 请求性能表
+drop table if exists request_stats;
 CREATE TABLE request_stats (
                                request_id char(36) PRIMARY KEY DEFAULT (UUID()),
                                user_id INT REFERENCES users(id),
@@ -90,6 +97,7 @@ CREATE TABLE request_stats (
                                tokens_per_sec FLOAT
 );
 
+drop table if exists alert_rules;
 CREATE TABLE alert_rules (
                              id SERIAL PRIMARY KEY,
                              metric_name VARCHAR(50) NOT NULL,
@@ -103,9 +111,11 @@ CREATE TABLE alert_rules (
 -- ----------------------------
 -- 用户表 (users)
 -- ----------------------------
+drop table if exists users;
 CREATE TABLE `users` (
                          `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户唯一ID',
                          `username` VARCHAR(50) NOT NULL COMMENT '用户名（唯一）',
+                         `nick_name` VARCHAR(255) NOT NULL COMMENT '昵称',
                          `password_hash` VARCHAR(255) NOT NULL COMMENT '密码哈希值（加盐存储）',
                          `email` VARCHAR(100) NOT NULL COMMENT '邮箱（唯一）',
                          `role` ENUM('admin', 'user') NOT NULL DEFAULT 'user' COMMENT '用户角色',
@@ -119,6 +129,7 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- 对话记录表 (conversations)
 -- ----------------------------
+drop table if exists conversations;
 CREATE TABLE `conversations` (
                                  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '对话ID',
                                  `user_id` INT UNSIGNED NOT NULL COMMENT '关联用户ID',
@@ -137,6 +148,7 @@ CREATE TABLE `conversations` (
 -- ----------------------------
 -- 模型管理表 (models)
 -- ----------------------------
+drop table if exists models;
 CREATE TABLE `models` (
                           `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '模型ID',
                           `name` VARCHAR(50) NOT NULL COMMENT '模型名称（唯一）',
@@ -153,6 +165,7 @@ CREATE TABLE `models` (
 -- ----------------------------
 -- 权限表 (permissions)
 -- ----------------------------
+drop table if exists permissions;
 CREATE TABLE `permissions` (
                                `user_id` INT UNSIGNED NOT NULL COMMENT '用户ID',
                                `model_id` INT UNSIGNED NOT NULL COMMENT '模型ID',
@@ -169,6 +182,7 @@ CREATE TABLE `permissions` (
 -- ----------------------------
 -- 操作日志表 (audit_logs)
 -- ----------------------------
+drop table if exists audit_logs;
 CREATE TABLE `audit_logs` (
                               `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '日志ID',
                               `user_id` INT UNSIGNED NOT NULL COMMENT '操作用户ID',
