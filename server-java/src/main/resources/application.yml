@@ -5,6 +5,7 @@ mybatis:
   type-aliases-package: com.lastnight2022.cc.models
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
 spring:
   mvc:
     pathmatch:
@@ -31,14 +32,9 @@ spring:
           min-idle: 0
           max-wait: 2000ms
 logging:
+  config: classpath:logback.xml
   level:
-    com.lastnight2022.cc.mapper: DEBUG
-    # 更详细的执行日志（可选）
-    org.mybatis: TRACE
-    java.sql.Connection: TRACE
-    java.sql.Statement: DEBUG
-    java.sql.PreparedStatement: TRACE
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n" # 自定义日志格式
+    root: INFO  # 全局日志级别
+    org.springframework: WARN  # 按包名设置级别
 swagger:
   enabled: true
