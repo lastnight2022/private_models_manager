@@ -6,6 +6,9 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     url: jdbc:mysql://192.168.1.13:3306/AI_Models_Manager?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
     username: tom
@@ -37,3 +40,5 @@ logging:
     java.sql.PreparedStatement: TRACE
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n" # 自定义日志格式
+swagger:
+  enabled: true

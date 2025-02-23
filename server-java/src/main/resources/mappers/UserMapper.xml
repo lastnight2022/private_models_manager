@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lastnight2022.cc.mapper.UserMapper">
+<mapper namespace="com.lastnight2022.cc.mappers.UserMapper">
     <!-- 定义结果映射（处理字段名转换） -->
     <resultMap id="userResultMap" type="User">
         <id property="id" column="id"/>

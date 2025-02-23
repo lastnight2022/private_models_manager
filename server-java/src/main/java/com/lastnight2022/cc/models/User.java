@@ -1,12 +1,16 @@
 package com.lastnight2022.cc.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class User {
     private Long id;
+    @NotBlank(message = "用户名不能为空")
     private String username;
     private String nickname;
+    @Size(min = 6, message = "密码长度至少6位")
     private String passwordHash; // 对应 password_hash 字段（驼峰映射）
     private String email;
     private Role role; // 使用枚举类型

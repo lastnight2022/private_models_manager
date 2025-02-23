@@ -1,4 +1,4 @@
-package com.lastnight2022.cc.mapper;
+package com.lastnight2022.cc.mappers;
 
 import com.lastnight2022.cc.models.User;
 import org.apache.ibatis.annotations.Mapper;
