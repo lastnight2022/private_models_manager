@@ -34,6 +34,7 @@
 
     <!-- 按包名设置日志级别 -->
     <logger name="com.lastnight2022.cc.controller" level="DEBUG" />
+    <logger name="com.lastnight2022.cc.mappers" level="DEBUG"/>
     <logger name="org.mybatis" level="INFO"/>
     <logger name="java.sql" level="DEBUG"/>
 </configuration>
