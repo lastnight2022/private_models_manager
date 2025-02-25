@@ -6,15 +6,32 @@ import (
 	"os"
 
 	"github.com/system-server2025/global"
+	"github.com/system-server2025/global/config"
 	"github.com/system-server2025/global/instance/echo"
-	elasticsearch "github.com/system-server2025/global/instance/elasticserach"
 	"github.com/system-server2025/global/instance/logrus"
 	"github.com/system-server2025/global/instance/redis"
 	"github.com/system-server2025/global/instance/xorm"
 )
 
 
-func init() {
+func InitApp() *global.Application {
+	var config config.Config
+	file, err := os.Open("config.json")
+	if err != nil {
+		fmt.Println("打开配置文件出错:", err)
+		return nil
+	}
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&config)
+	if err != nil {
+		fmt.Println("解析配置文件出错:", err)
+		return nil
+	}
+	global.Config = &config
+	fmt.Println(global.Config)
+	var app *global.Application
+
 	echo := echo.InitEcho()
 	xorm,err := xorm.ConnectDB()
 	if err != nil {
@@ -22,21 +39,15 @@ func init() {
 	}
 	redis := redis.ConnectRedis()
 	logger := logrus.InitLogger()
-	es := elasticsearch.InitEs()
-	global.GVA = global.NewGlobalValue(echo,es,logger,redis,xorm)
 	
-	file, err := os.Open("config.json")
-	if err != nil {
-		fmt.Println("打开配置文件出错:", err)
-		return
+	app = &global.Application{
+		Echo: echo,
+		Xorm: xorm,
+		Redis: redis,
+		Logger: logger,
 	}
-	defer file.Close()
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(&global.GVA.Config)
-	if err != nil {
-		fmt.Println("解析配置文件出错:", err)
-		return
-	}
-	fmt.Println("数据库连接字符串:", global.GVA.Config.Database.DBName)
-	fmt.Println("服务器端口:", global.GVA.Config.Server.Port)
+		
+	fmt.Println("数据库连接字符串:", global.Config.Database.DBName)
+	fmt.Println("服务器端口:", global.Config.Server.Port)
+	return app
 }

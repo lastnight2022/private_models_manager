@@ -3,7 +3,6 @@ module github.com/system-server2025
 go 1.20
 
 require (
-	github.com/elastic/go-elasticsearch/v7 v7.17.10
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-sql-driver/mysql v1.7.0
 	github.com/labstack/echo/v4 v4.13.3

@@ -12,8 +12,8 @@ import (
 
 func ConnectDB() (*xorm.Engine,error) {
 	var err error
-	port := fmt.Sprintf("%d", global.GVA.Config.Database.Port)
-	var dsn = global.GVA.Config.Database.User + ":" + global.GVA.Config.Database.Password + "@tcp(" + global.GVA.Config.Database.Host + ":" + port + ")/" + global.GVA.Config.Database.DBName + "?charset=utf8mb4&parseTime=True&loc=Local"
+	port := fmt.Sprintf("%d", global.Config.Database.Port)
+	var dsn = global.Config.Database.User + ":" + global.Config.Database.Password + "@tcp(" + global.Config.Database.Host + ":" + port + ")/" + global.Config.Database.DBName + "?charset=utf8mb4&parseTime=True&loc=Local"
 	fmt.Println("dsn: ", dsn)
 	Engine, err := xorm.NewEngine("mysql", dsn)
 	if err != nil {

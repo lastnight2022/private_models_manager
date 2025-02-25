@@ -13,9 +13,9 @@ func ConnectRedis() *redis.Client {
 	// 读取Redis配置信息
 	// 创建Redis客户端连接
 	client := redis.NewClient(&redis.Options{
-		Addr:     global.GVA.Config.RedisConfig.Addr,
-		Password: global.GVA.Config.RedisConfig.Password,
-		DB:       global.GVA.Config.RedisConfig.DB,
+		Addr:     global.Config.RedisConfig.Addr,
+		Password: global.Config.RedisConfig.Password,
+		DB:       global.Config.RedisConfig.DB,
 	})
 	// 测试连接
 	ctx := context.Background()

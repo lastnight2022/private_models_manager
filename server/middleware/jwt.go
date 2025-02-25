@@ -31,7 +31,7 @@ func JWTMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
             return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Invalid token format"})
         }
         jwtToken := parts[1]
-        _, err := jwt.VerifyJWTToken(jwtToken, global.GVA.Config.Server.Secret)
+        _, err := jwt.VerifyJWTToken(jwtToken, global.Config.Server.Secret)
         if err!= nil {
             return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Invalid token"})
         }
