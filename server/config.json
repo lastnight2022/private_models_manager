@@ -5,7 +5,7 @@
     "port": 3306,
     "user": "tom",
     "password": "123456",
-    "db_name": "system2025"
+    "db_name": "AI_Models_Manager"
   },
   "redis": {
         "addr": "192.168.1.13:6379",
