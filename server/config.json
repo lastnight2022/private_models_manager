@@ -19,8 +19,8 @@
     "timeout": 30
   },
   "mongodb": {
-    "username": "prod_user",
-    "password": "ProdPass123",
+    "username": "",
+    "password": "",
     "hosts": [
       {"ip": "192.168.1.13", "port": 27017}
     ],
