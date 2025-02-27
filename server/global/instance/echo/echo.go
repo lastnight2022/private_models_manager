@@ -3,10 +3,11 @@ package echo
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/system-server2025/global/config"
 	customMiddleware "github.com/system-server2025/middleware"
 )
 
-func InitEcho() *echo.Echo {
+func InitEcho(cfg config.Config) *echo.Echo {
 	E := echo.New()
 	// 使用echo中间件
 	E.Use(middleware.Logger(), middleware.Recover(), middleware.Gzip(),middleware.CORS())

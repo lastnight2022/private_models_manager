@@ -4,16 +4,16 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/system-server2025/global"
+	"github.com/system-server2025/global/config"
 	"xorm.io/core"
 	"xorm.io/xorm"
 )
 
 
-func ConnectDB() (*xorm.Engine,error) {
+func ConnectDB(cfg config.Config) (*xorm.Engine,error) {
 	var err error
-	port := fmt.Sprintf("%d", global.Config.Database.Port)
-	var dsn = global.Config.Database.User + ":" + global.Config.Database.Password + "@tcp(" + global.Config.Database.Host + ":" + port + ")/" + global.Config.Database.DBName + "?charset=utf8mb4&parseTime=True&loc=Local"
+	port := fmt.Sprintf("%d", cfg.Database.Port)
+	var dsn = cfg.Database.User + ":" + cfg.Database.Password + "@tcp(" + cfg.Database.Host + ":" + port + ")/" + cfg.Database.DBName + "?charset=utf8mb4&parseTime=True&loc=Local"
 	fmt.Println("dsn: ", dsn)
 	Engine, err := xorm.NewEngine("mysql", dsn)
 	if err != nil {

@@ -6,7 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	jwt "github.com/lastnight2022-cc/tools_lib/utils/jwt"
-	"github.com/system-server2025/global"
+	"github.com/system-server2025/global/config"
 )
 
 func JWTMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
@@ -31,7 +31,8 @@ func JWTMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
             return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Invalid token format"})
         }
         jwtToken := parts[1]
-        _, err := jwt.VerifyJWTToken(jwtToken, global.Config.Server.Secret)
+	    cfg := config.GetConfig()
+        _, err := jwt.VerifyJWTToken(jwtToken, cfg.Server.Secret)
         if err!= nil {
             return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Invalid token"})
         }

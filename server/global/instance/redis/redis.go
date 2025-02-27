@@ -5,17 +5,17 @@ import (
 	"fmt"
 
 	"github.com/go-redis/redis/v8"
-	"github.com/system-server2025/global"
+	"github.com/system-server2025/global/config"
 )
 
 
-func ConnectRedis() *redis.Client {
+func ConnectRedis(cfg config.Config) *redis.Client {
 	// 读取Redis配置信息
 	// 创建Redis客户端连接
 	client := redis.NewClient(&redis.Options{
-		Addr:     global.Config.RedisConfig.Addr,
-		Password: global.Config.RedisConfig.Password,
-		DB:       global.Config.RedisConfig.DB,
+		Addr:     cfg.RedisConfig.Addr,
+		Password: cfg.RedisConfig.Password,
+		DB:       cfg.RedisConfig.DB,
 	})
 	// 测试连接
 	ctx := context.Background()

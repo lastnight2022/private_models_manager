@@ -1,12 +1,11 @@
 package service
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
 
 	"github.com/system-server2025/global"
 	"github.com/system-server2025/global/config"
+	_ "github.com/system-server2025/global/instance/cron"
 	"github.com/system-server2025/global/instance/echo"
 	"github.com/system-server2025/global/instance/logrus"
 	"github.com/system-server2025/global/instance/mongodb"
@@ -16,31 +15,18 @@ import (
 
 
 func InitApp() *global.Application {
-	var config config.Config
-	file, err := os.Open("config.json")
-	if err != nil {
-		fmt.Println("打开配置文件出错:", err)
-		return nil
-	}
-	defer file.Close()
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(&config)
-	if err != nil {
-		fmt.Println("解析配置文件出错:", err)
-		return nil
-	}
-	global.Config = &config
-	fmt.Println(global.Config)
+	config.Init("config.json")
+	cfg := config.GetConfig()
 	var app *global.Application
 
-	echo := echo.InitEcho()
-	xorm,err := xorm.ConnectDB()
+	echo := echo.InitEcho(cfg)
+	xorm,err := xorm.ConnectDB(cfg)
 	if err != nil {
 		fmt.Println("xorm 连接数据库失败")
 	}
-	redis := redis.ConnectRedis()
+	redis := redis.ConnectRedis(cfg)
 	logger := logrus.InitLogger()
-	mongo := mongodb.InitMongo()
+	mongo := mongodb.InitMongo(cfg)
 	xorm.SetLogger(logger)
 	
 	app = &global.Application{
@@ -51,7 +37,7 @@ func InitApp() *global.Application {
 		Mongo: mongo,
 	}
 		
-	fmt.Println("数据库连接字符串:", global.Config.Database.DBName)
-	fmt.Println("服务器端口:", global.Config.Server.Port)
+	fmt.Println("数据库连接字符串:", cfg.Database.DBName)
+	fmt.Println("服务器端口:", cfg.Server.Port)
 	return app
 }

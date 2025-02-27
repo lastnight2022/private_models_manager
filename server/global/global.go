@@ -9,12 +9,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"xorm.io/xorm"
 
-	"github.com/system-server2025/global/config"
 )
 
 var (
 	LogFile *os.File
-	Config  *config.Config
 )
 
 

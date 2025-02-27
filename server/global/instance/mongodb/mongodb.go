@@ -8,27 +8,26 @@ import (
 	"strings"
 	"time"
 
-	"github.com/system-server2025/global"
 	"github.com/system-server2025/global/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InitMongo() *mongo.Client {
+func InitMongo(cfg config.Config) *mongo.Client {
 	// 连接配置
 	// uri := "mongodb://prod_user:ProdPass123@10.0.0.5:27017,10.0.0.6:27017/admin?" +
 	// 	"replicaSet=myReplicaSet&readPreference=secondaryPreferred"
-	uri := buildMongoURI(global.Config)
+	uri := buildMongoURI(cfg)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(global.Config.MongoDb.ConnectTimeoutSec)*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(cfg.MongoDb.ConnectTimeoutSec)*time.Second)
 	defer cancel()
 
 	// 创建带连接池的客户端
 	client, err := mongo.Connect(ctx, options.Client().
 		ApplyURI(uri).
-		SetMaxPoolSize(global.Config.MongoDb.MaxPoolSize).
-		SetMinPoolSize(global.Config.MongoDb.MinPoolSize).
-		SetSocketTimeout(time.Duration(global.Config.MongoDb.SocketTimeoutSec)*time.Second),
+		SetMaxPoolSize(cfg.MongoDb.MaxPoolSize).
+		SetMinPoolSize(cfg.MongoDb.MinPoolSize).
+		SetSocketTimeout(time.Duration(cfg.MongoDb.SocketTimeoutSec)*time.Second),
 	)
 	if err != nil {
 		log.Fatal("连接失败:", err)
@@ -53,7 +52,7 @@ func CloseMongo(client *mongo.Client)  {
 	log.Println("连接已关闭")
 }
 
-func buildMongoURI(cfg *config.Config) string {
+func buildMongoURI(cfg config.Config) string {
     // 处理主机列表
     var hosts []string
     for _, h := range cfg.MongoDb.Hosts {
