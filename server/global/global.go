@@ -1,10 +1,12 @@
 package global
 
 import (
+	"os"
+
 	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
-	"os"
+	"go.mongodb.org/mongo-driver/mongo"
 	"xorm.io/xorm"
 
 	"github.com/system-server2025/global/config"
@@ -22,6 +24,7 @@ type Application struct {
 	Logger *logrus.Logger
 	Redis  *redis.Client
 	Xorm   *xorm.Engine
+	Mongo  *mongo.Client
 }
 
 

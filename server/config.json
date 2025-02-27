@@ -13,16 +13,24 @@
         "db": 0,
         "pool_size": 10
   },
-  "elasticsearch": {
-    "host": "localhost",
-    "port": 9200,
-    "enable_auth": false,
-    "username": "",
-    "password": ""
-  },
   "server": {
     "port": 8080,
     "secret": "hello word",
     "timeout": 30
+  },
+  "mongodb": {
+    "username": "prod_user",
+    "password": "ProdPass123",
+    "hosts": [
+      {"ip": "192.168.1.13", "port": 27017}
+    ],
+    "database": "admin",
+    "auth_source": "admin",
+    "replica_set": "myReplicaSet",
+    "read_preference": "secondaryPreferred",
+    "max_pool_size": 200,
+    "min_pool_size": 50,
+    "socket_timeout_sec": 30,
+    "connect_timeout_sec": 10
   }
 }

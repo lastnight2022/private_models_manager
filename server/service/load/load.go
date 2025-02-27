@@ -9,6 +9,7 @@ import (
 	"github.com/system-server2025/global/config"
 	"github.com/system-server2025/global/instance/echo"
 	"github.com/system-server2025/global/instance/logrus"
+	"github.com/system-server2025/global/instance/mongodb"
 	"github.com/system-server2025/global/instance/redis"
 	"github.com/system-server2025/global/instance/xorm"
 )
@@ -39,12 +40,15 @@ func InitApp() *global.Application {
 	}
 	redis := redis.ConnectRedis()
 	logger := logrus.InitLogger()
+	mongo := mongodb.InitMongo()
+	xorm.SetLogger(logger)
 	
 	app = &global.Application{
 		Echo: echo,
 		Xorm: xorm,
 		Redis: redis,
 		Logger: logger,
+		Mongo: mongo,
 	}
 		
 	fmt.Println("数据库连接字符串:", global.Config.Database.DBName)
