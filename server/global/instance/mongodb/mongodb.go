@@ -43,51 +43,59 @@ func InitMongo(cfg config.Config) *mongo.Client {
 
 }
 
-func CloseMongo(client *mongo.Client)  {
+func CloseMongo(client *mongo.Client) {
 	ctxShutdown, cancelShutdown := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancelShutdown()
 	if err := client.Disconnect(ctxShutdown); err != nil {
-			log.Fatal("关闭连接失败:", err)
+		log.Fatal("关闭连接失败:", err)
 	}
 	log.Println("连接已关闭")
 }
 
 func buildMongoURI(cfg config.Config) string {
-    // 处理主机列表
-    var hosts []string
-    for _, h := range cfg.MongoDb.Hosts {
-        hosts = append(hosts, fmt.Sprintf("%s:%d", h.IP, h.Port))
-    }
-    hostStr := strings.Join(hosts, ",")
+	// 处理主机列表
+	var hosts []string
+	for _, h := range cfg.MongoDb.Hosts {
+		hosts = append(hosts, fmt.Sprintf("%s:%d", h.IP, h.Port))
+	}
+	hostStr := strings.Join(hosts, ",")
 
-    // 转义用户名和密码中的特殊字符
-    escapedUser := url.PathEscape(cfg.MongoDb.Username)
-    escapedPass := url.PathEscape(cfg.MongoDb.Password)
+	// 转义用户名和密码中的特殊字符
+	escapedUser := url.PathEscape(cfg.MongoDb.Username)
+	escapedPass := url.PathEscape(cfg.MongoDb.Password)
 
-    // 构建基础 URI
-    uri := fmt.Sprintf("mongodb://%s:%s@%s/%s",
-        escapedUser,
-        escapedPass,
-        hostStr,
-        cfg.MongoDb.Database,
-    )
+	// 构建基础 URI
+	uri := ""
+	if cfg.MongoDb.Username != "" {
+		uri = fmt.Sprintf("mongodb://%s:%s@%s/%s",
+			escapedUser,
+			escapedPass,
+			hostStr,
+			cfg.MongoDb.Database,
+		)
+	} else {
+		uri = fmt.Sprintf("mongodb://%s/%s",
+			hostStr,
+			cfg.MongoDb.Database,
+		)
+	}
 
-    // 添加查询参数
-    queryParams := url.Values{}
-    if cfg.MongoDb.AuthSource != "" {
-        queryParams.Add("authSource", cfg.MongoDb.AuthSource)
-    }
-    if cfg.MongoDb.ReplicaSet != "" {
-        queryParams.Add("replicaSet", cfg.MongoDb.ReplicaSet)
-    }
-    if cfg.MongoDb.ReadPreference != "" {
-        queryParams.Add("readPreference", cfg.MongoDb.ReadPreference)
-    }
+	// 添加查询参数
+	queryParams := url.Values{}
+	if cfg.MongoDb.AuthSource != "" {
+		queryParams.Add("authSource", cfg.MongoDb.AuthSource)
+	}
+	if cfg.MongoDb.ReplicaSet != "" {
+		queryParams.Add("replicaSet", cfg.MongoDb.ReplicaSet)
+	}
+	if cfg.MongoDb.ReadPreference != "" {
+		queryParams.Add("readPreference", cfg.MongoDb.ReadPreference)
+	}
 
-    // 拼接完整 URI
-    if len(queryParams) > 0 {
-        uri += "?" + queryParams.Encode()
-    }
+	// 拼接完整 URI
+	if len(queryParams) > 0 {
+		uri += "?" + queryParams.Encode()
+	}
 
-    return uri
+	return uri
 }

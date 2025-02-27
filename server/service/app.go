@@ -26,7 +26,6 @@ func InitApp() *global.Application {
 	redis := redis.ConnectRedis(cfg)
 	logger := logrus.InitLogger()
 	mongo := mongodb.InitMongo(cfg)
-	xorm.SetLogger(logger)
 
 	app = &global.Application{
 		Echo:   echo,
