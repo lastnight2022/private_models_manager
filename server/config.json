@@ -17,20 +17,5 @@
     "port": 8080,
     "secret": "hello word",
     "timeout": 30
-  },
-  "mongodb": {
-    "username": "",
-    "password": "",
-    "hosts": [
-      {"ip": "192.168.1.13", "port": 27017}
-    ],
-    "database": "admin",
-    "auth_source": "admin",
-    "replica_set": "",
-    "read_preference": "",
-    "max_pool_size": 200,
-    "min_pool_size": 50,
-    "socket_timeout_sec": 30,
-    "connect_timeout_sec": 10
   }
 }
