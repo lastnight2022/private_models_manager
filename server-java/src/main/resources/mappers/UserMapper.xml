@@ -4,7 +4,7 @@
 
 <mapper namespace="com.lastnight2022.cc.mappers.UserMapper">
     <!-- 定义结果映射（处理字段名转换） -->
-    <resultMap id="userResultMap" type="User">
+    <resultMap id="userResultMap" type="com.lastnight2022.cc.models.User">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="nickname" column="nick_name"/>
