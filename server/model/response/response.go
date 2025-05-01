@@ -13,7 +13,7 @@ const (
 )
 
 func Result(code int, data interface{}, msg string, c echo.Context) {
-	c.JSON(code,Response{
+	c.JSON(code, Response{
 		data,
 		msg,
 	})

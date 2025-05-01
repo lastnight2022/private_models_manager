@@ -9,7 +9,6 @@ import (
 	"github.com/system-server2025/global"
 )
 
-
 func InitLogger() *logrus.Logger {
 	Logger := logrus.New()
 	Logger.SetLevel(logrus.InfoLevel)

@@ -10,7 +10,7 @@ import (
 func InitEcho(cfg config.Config) *echo.Echo {
 	E := echo.New()
 	// 使用echo中间件
-	E.Use(middleware.Logger(), middleware.Recover(), middleware.Gzip(),middleware.CORS())
+	E.Use(middleware.Logger(), middleware.Recover(), middleware.Gzip(), middleware.CORS())
 	// 使用自定义中间件
 	E.Use(customMiddleware.JWTMiddleware)
 	// 静态文件

@@ -12,7 +12,7 @@ var (
 	initOnce  sync.Once
 )
 
-func Init(path string)  {
+func Init(path string) {
 	initOnce.Do(func() {
 		err := loadFile(path)
 		if err != nil {

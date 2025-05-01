@@ -8,7 +8,6 @@ import (
 	"github.com/system-server2025/global/config"
 )
 
-
 func ConnectRedis(cfg config.Config) *redis.Client {
 	// 读取Redis配置信息
 	// 创建Redis客户端连接
@@ -27,5 +26,3 @@ func ConnectRedis(cfg config.Config) *redis.Client {
 	fmt.Println("连接Redis成功:", pong)
 	return client
 }
-
-
